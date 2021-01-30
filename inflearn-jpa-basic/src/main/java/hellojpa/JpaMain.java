@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 
 @Slf4j
 public class JpaMain {
@@ -21,25 +22,17 @@ public class JpaMain {
 
             Member member1 = new Member();
             member1.setName("hello JAVA");
-            member1.setTeam(team);
+            member1.changeTeam(team);
             em.persist(member1);
 
-            Member member2 = new Member();
-            member2.setName("hello JPA");
-            member2.setTeam(team);
-            em.persist(member2);
+//            em.flush();
+//            em.clear();
 
-            Member member3 = new Member();
-            member3.setName("hello C#");
-            em.persist(member3);
-
-            em.flush();
-            em.clear();
-
-            Member findMember = em.find(Member.class, 1L);
-            log.info("name = " + findMember.getName() + " team = " + findMember.getTeam().getName());
-
-
+            Team findTeam = em.find(Team.class, 1L);
+            log.info("----------------------------------");
+            List<Member> members = findTeam.getMembers();
+            members.forEach(member -> log.info("m = " + member.getName()));
+            log.info("----------------------------------");
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
