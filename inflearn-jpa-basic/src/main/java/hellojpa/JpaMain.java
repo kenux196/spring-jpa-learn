@@ -10,7 +10,7 @@ import java.util.List;
 @Slf4j
 public class JpaMain {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("inflearnJpaBasic");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hellojpa");
 
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();

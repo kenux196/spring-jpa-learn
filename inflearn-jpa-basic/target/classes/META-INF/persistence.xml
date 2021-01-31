@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
 
-    <persistence-unit name="inflearnJpaBasic">
-        <class>hellojpa.Member</class>
+    <persistence-unit name="hellojpa">
         <properties>
             <!-- H2 데이터베이스 드라이버 및 설정 -->
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
@@ -22,26 +21,4 @@
             <property name="hibernate.id.new_generator_mappings" value="true"/>
         </properties>
     </persistence-unit>
-
-<!--    <persistence-unit name="jpastart">-->
-<!--        <properties>-->
-<!--            &lt;!&ndash; H2 데이터베이스 드라이버 및 설정 &ndash;&gt;-->
-<!--            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>-->
-<!--            <property name="javax.persistence.jdbc.user" value="kenux"/>-->
-<!--            <property name="javax.persistence.jdbc.password" value="rotkfrn196"/>-->
-<!--            &lt;!&ndash;            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://kenux-springboot2-test-service.csvkkyvtvu5o.ap-northeast-2.rds.amazonaws.com:5432/jpa_test"/>&ndash;&gt;-->
-<!--            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/jpa_start"/>-->
-
-<!--            &lt;!&ndash; H2 데이터베이스 방언 사용 &ndash;&gt;-->
-<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>-->
-<!--            &lt;!&ndash; 테이블 자동 생성 &ndash;&gt;-->
-<!--            <property name="hibernate.hbm2ddl.auto" value="update"/> &lt;!&ndash; create &ndash;&gt;-->
-<!--            &lt;!&ndash; 실행되는 SQL 을 보여줌 &ndash;&gt;-->
-<!--            <property name="hibernate.show_sql" value="true" />-->
-<!--            &lt;!&ndash; 실행되는 SQL 을 이쁘게 보여줌 &ndash;&gt;-->
-<!--            <property name="hibernate.format_sql" value="true"/>-->
-<!--            <property name="hibernate.id.new_generator_mappings" value="true"/>-->
-<!--        </properties>-->
-<!--    </persistence-unit>-->
-
 </persistence>
