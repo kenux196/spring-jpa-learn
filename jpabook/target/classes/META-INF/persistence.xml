@@ -13,7 +13,7 @@
             <!-- H2 데이터베이스 방언 사용 -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <!-- 테이블 자동 생성 -->
-            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- create -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/> <!-- create -->
             <!-- 실행되는 SQL 을 보여줌 -->
             <property name="hibernate.show_sql" value="true" />
             <!-- 실행되는 SQL 을 이쁘게 보여줌 -->
