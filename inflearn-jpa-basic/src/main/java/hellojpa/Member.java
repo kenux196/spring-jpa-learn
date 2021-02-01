@@ -1,12 +1,13 @@
 package hellojpa;
 
+import com.sun.xml.internal.rngom.parse.host.Base;
 import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "MEMBER")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
