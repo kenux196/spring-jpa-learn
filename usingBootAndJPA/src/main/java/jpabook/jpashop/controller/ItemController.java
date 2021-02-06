@@ -27,14 +27,14 @@ public class ItemController {
 
     @PostMapping(value = "/items/new")
     public String create(BookForm form) {
-        Book book = new Book();
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
-
-        itemService.saveItem(book);
+//        Book book = new Book();
+//        book.setName(form.getName());
+//        book.setPrice(form.getPrice());
+//        book.setStockQuantity(form.getStockQuantity());
+//        book.setAuthor(form.getAuthor());
+//        book.setIsbn(form.getIsbn());
+//        itemService.saveItem(book); // 머지 보다는 dirty checking 사용하여 업데이트 : best practice
+        itemService.updateItem(form.getId(), form.getName(), form.getPrice(), form.getStockQuantity());
 
         return "redirect:/items";
     }
