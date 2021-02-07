@@ -1,22 +1,17 @@
 package jpabook.jpashop.api;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.dto.CreateMemberRequest;
 import jpabook.jpashop.dto.CreateMemberResponse;
+import jpabook.jpashop.dto.PatchMemberRequest;
+import jpabook.jpashop.dto.PatchMemberResponse;
 import jpabook.jpashop.service.MemberService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.*;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -45,10 +40,22 @@ public class MemberApiController {
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
         Member member = new Member();
         member.setName(request.getName());
-//        Address address = new Address(request.getCity(), request.getStreet(), request.getZipcode());
-//        member.setAddress(address);
+        Address address = new Address(request.getCity(), request.getStreet(), request.getZipcode());
+        member.setAddress(address);
 
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
+    }
+
+    @PatchMapping(value = "/api/v2/members/{id}")
+    public PatchMemberResponse updateMember(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid PatchMemberRequest request) {
+        memberService.update(id, request);
+        Member findMember = memberService.findOne(id);
+        return PatchMemberResponse.builder()
+                .id(findMember.getId())
+                .name(findMember.getName())
+                .build();
     }
 }

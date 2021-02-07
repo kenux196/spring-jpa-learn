@@ -1,6 +1,8 @@
 package jpabook.jpashop.service;
 
+import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.dto.PatchMemberRequest;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,5 +64,13 @@ public class MemberService {
      */
     public List<Member> findMembersByName(String name) {
         return memberRepository.findByName(name);
+    }
+
+    @Transactional
+    public void update(Long id, PatchMemberRequest request) {
+        Member findMember = memberRepository.findOne(id);
+        findMember.setName(request.getName());
+//        Address address = new Address(request.getCity(), request.getStreet(), request.getZipcode());
+//        findMember.setAddress(address);
     }
 }
