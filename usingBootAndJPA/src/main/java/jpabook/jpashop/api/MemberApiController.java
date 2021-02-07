@@ -8,11 +8,13 @@ import jpabook.jpashop.dto.PatchMemberRequest;
 import jpabook.jpashop.dto.PatchMemberResponse;
 import jpabook.jpashop.service.MemberService;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MemberApiController {
@@ -51,11 +53,11 @@ public class MemberApiController {
     public PatchMemberResponse updateMember(
             @PathVariable("id") Long id,
             @RequestBody @Valid PatchMemberRequest request) {
+
+        log.info("[kenux debug]" + request);
+
         memberService.update(id, request);
         Member findMember = memberService.findOne(id);
-        return PatchMemberResponse.builder()
-                .id(findMember.getId())
-                .name(findMember.getName())
-                .build();
+        return PatchMemberResponse.create(findMember);
     }
 }

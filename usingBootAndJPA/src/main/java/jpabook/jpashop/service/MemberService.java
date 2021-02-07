@@ -70,7 +70,12 @@ public class MemberService {
     public void update(Long id, PatchMemberRequest request) {
         Member findMember = memberRepository.findOne(id);
         findMember.setName(request.getName());
-//        Address address = new Address(request.getCity(), request.getStreet(), request.getZipcode());
-//        findMember.setAddress(address);
+        if (request.getAddressDto() != null) {
+            Address address = new Address(
+                    request.getAddressDto().getCity(),
+                    request.getAddressDto().getStreet(),
+                    request.getAddressDto().getZipcode());
+            findMember.setAddress(address);
+        }
     }
 }

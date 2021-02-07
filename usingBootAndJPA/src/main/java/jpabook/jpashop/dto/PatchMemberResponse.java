@@ -1,12 +1,21 @@
 package jpabook.jpashop.dto;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jpabook.jpashop.domain.Member;
 import lombok.Data;
 
 @Data
-@Builder
 public class PatchMemberResponse {
     private Long id;
     private String name;
-//    private Address address;
+    @JsonProperty(value = "address")
+    private AddressDto addressDto;
+
+    public static PatchMemberResponse create(Member member) {
+        PatchMemberResponse response = new PatchMemberResponse();
+        response.setId(member.getId());
+        response.setName(member.getName());
+        response.setAddressDto(AddressDto.createAddressDto(member.getAddress()));
+        return response;
+    }
 }
