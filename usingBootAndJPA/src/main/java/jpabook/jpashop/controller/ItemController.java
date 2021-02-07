@@ -22,20 +22,18 @@ public class ItemController {
     @GetMapping(value = "/items/new")
     public String createForm(Model model) {
         model.addAttribute("form", new BookForm());
-        return "/items/createItemForm";
+        return "items/createItemForm";
     }
 
     @PostMapping(value = "/items/new")
     public String create(BookForm form) {
-//        Book book = new Book();
-//        book.setName(form.getName());
-//        book.setPrice(form.getPrice());
-//        book.setStockQuantity(form.getStockQuantity());
-//        book.setAuthor(form.getAuthor());
-//        book.setIsbn(form.getIsbn());
-//        itemService.saveItem(book); // 머지 보다는 dirty checking 사용하여 업데이트 : best practice
-        itemService.updateItem(form.getId(), form.getName(), form.getPrice(), form.getStockQuantity());
-
+        Book book = new Book();
+        book.setName(form.getName());
+        book.setPrice(form.getPrice());
+        book.setStockQuantity(form.getStockQuantity());
+        book.setAuthor(form.getAuthor());
+        book.setIsbn(form.getIsbn());
+        itemService.saveItem(book);
         return "redirect:/items";
     }
 
@@ -70,14 +68,17 @@ public class ItemController {
 
     @PostMapping(value = "/items/{itemId}/edit")
     public String updateItem(@ModelAttribute("form") BookForm form) {
-        Book book = new Book();
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
+//        Book book = new Book();
+//        book.setName(form.getName());
+//        book.setPrice(form.getPrice());
+//        book.setStockQuantity(form.getStockQuantity());
+//        book.setAuthor(form.getAuthor());
+//        book.setIsbn(form.getIsbn());
+//
+//        itemService.saveItem(book);
 
-        itemService.saveItem(book);
+        // 머지 보다는 dirty checking 사용하여 업데이트 : best practice
+        itemService.updateItem(form.getId(), form.getName(), form.getPrice(), form.getStockQuantity());
 
         return "redirect:/items";
     }
