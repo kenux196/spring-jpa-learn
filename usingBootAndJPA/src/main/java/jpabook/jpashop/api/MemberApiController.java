@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -59,5 +61,41 @@ public class MemberApiController {
         memberService.update(id, request);
         Member findMember = memberService.findOne(id);
         return PatchMemberResponse.create(findMember);
+    }
+
+    /**
+     * 엔티티 그대로 노출되어서 좋지 않음.
+     * 후속 처리가 더 골치 아픔.
+     */
+    @GetMapping("/api/v1/members")
+    public List<Member> membersV1() {
+        return memberService.findMembers();
+    }
+
+    /**
+     * 조회 V2 : 응답 값으로 엔티티가 아닌 별도의 DTO를 반환
+     */
+    @GetMapping("/api/v2/members")
+    public Result memberV2() {
+        List<Member> findMembers = memberService.findMembers();
+        // Entity -> DTO
+        List<MemberDto> collect = findMembers.stream()
+                .map(m -> new MemberDto(m.getName()))
+                .collect(Collectors.toList());
+        return new Result(collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static
+    class Result<T> {
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static
+    class MemberDto {
+        private String name;
     }
 }
