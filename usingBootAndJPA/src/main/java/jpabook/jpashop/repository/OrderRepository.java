@@ -104,4 +104,28 @@ public class OrderRepository {
                         " join fetch o.delivery d ", Order.class)
                 .getResultList();
     }
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                "select o from Order o " +
+                        " join fetch o.member m " +
+                        " join fetch o.delivery d ", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                "select distinct o from Order o " +
+                        " join fetch o.member m " +
+                        " join fetch o.delivery d " +
+                        " join fetch o.orderItems oi " +
+                        " join fetch oi.item i", Order.class)
+                .getResultList();
+        // distinct : 중복을 JPA 에서 걸러내 준다.
+        // 실제 쿼리 나가는 부분도 보면, SQL에서 제공하는 distinct 가 적용된다.
+        // 그러나, DB에서 distinct는 모든 컬럼의 값이 동일해야 중복 제거가 된다.
+        // JPA에서 처리되는 distinct는 DB의 distinct 효과에 추가로 동일한 entity가 조회되면, 걸러주는 기능까지 더 해진다. GOOD~!
+    }
 }
