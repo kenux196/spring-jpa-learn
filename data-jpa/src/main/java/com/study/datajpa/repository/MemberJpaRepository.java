@@ -54,4 +54,13 @@ public class MemberJpaRepository {
                 .setParameter("username", username)
                 .getResultList();
     }
+
+    // 벌크 연산 : 특정 조건에 속한 것들을 쿼리 한번으로 업데이트하는 것.
+    // 나이가 20살 이상인 멤버의 나이를 모두 +1 살 한다.
+    public int bulkAgePlus(int age) {
+        return em.createQuery("update Member m set m.age = m.age + 1 " +
+                " where m.age >= :age")
+                .setParameter("age", age)
+                .executeUpdate();
+    }
 }
