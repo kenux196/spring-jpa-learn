@@ -2,19 +2,19 @@ package com.study.datajpa.repository;
 
 import com.study.datajpa.domain.Member;
 import com.study.datajpa.dto.MemberDto;
+import com.study.datajpa.repository.custom.MemberRepositoryCustom;
+import com.study.datajpa.repository.projections.UsernameOnly;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
+import javax.persistence.QueryHint;
 import java.util.List;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom, JpaSpecificationExecutor<Member> {
 
     List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
 
@@ -92,4 +92,13 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 메서드 이름으로 쿼리에서 특히 편리
     @EntityGraph(attributePaths = {"team"})
     List<Member> findEntityGraphByUsername(@Param("username") String username);
+
+    /**
+     * JPA Query Hint
+     */
+    @QueryHints(value = @QueryHint(name = "org.hibernate.readOnly", value = "true"))
+    Member findReadOnlyByUsername(String username);
+
+    // projections
+    List<UsernameOnly> findProjectionsByUsername(String username);
 }

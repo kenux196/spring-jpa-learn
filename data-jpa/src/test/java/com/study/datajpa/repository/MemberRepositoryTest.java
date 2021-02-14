@@ -3,13 +3,14 @@ package com.study.datajpa.repository;
 import com.study.datajpa.domain.Member;
 import com.study.datajpa.domain.Team;
 import com.study.datajpa.dto.MemberDto;
+import com.study.datajpa.repository.projections.UsernameOnly;
+import com.study.datajpa.repository.spec.MemberSpec;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -192,5 +193,135 @@ class MemberRepositoryTest {
             System.out.println("member.getTeam().getName() = " + member.getTeam().getName());
         }
 
+    }
+
+    @Test
+    public void queryHint() throws Exception {
+        // given
+        memberRepository.save(new Member("member1", 10));
+        em.flush();
+        em.clear();
+
+        // when
+        Member member = memberRepository.findReadOnlyByUsername("member1");
+        member.setUsername("member2");
+
+        em.flush(); // update query 실행 X => readonly 설정 때문.
+
+        // then
+
+    }
+
+    @Test
+    public void customRepositoryTest() throws Exception {
+        // given
+        memberRepository.save(new Member("member1", 10));
+        em.flush();
+        em.clear();
+
+        // when
+        List<Member> members = memberRepository.findMemberCustom();
+
+        // then
+        assertThat(members.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void JpaEventBaseEntity() throws Exception {
+        // given
+        Member member = new Member("member1");
+        memberRepository.save(member); // @PrePersist 발생
+
+        Thread.sleep(100);
+        member.setUsername("member2");
+
+        em.flush(); // @PreUpdate
+        em.clear();
+
+        // when
+        Member findMember = memberRepository.findById(member.getId()).get();
+
+        // then
+        System.out.println("findMember.getCreateDate() = " + findMember.getCreatedDate());
+        System.out.println("findMember.getCreatedBy() = " + findMember.getCreatedBy());
+        System.out.println("findMember.getUpdateDate() = " + findMember.getLastModifiedDate());
+        System.out.println("findMember.getLastModifiedBy() = " + findMember.getLastModifiedBy());
+    }
+
+    @Test
+    public void specificationTest() throws Exception {
+        // given
+        Team teamA = new Team("TeamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        // when
+        Specification<Member> spec = MemberSpec.username("m1").and(MemberSpec.teamName("teamA"));
+        List<Member> result = memberRepository.findAll(spec);
+
+        // then
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void queryByExample() throws Exception {
+        // given
+        Team teamA = new Team("TeamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        // when
+        // Prob 생성
+        Member member = new Member("m1");
+        Team team = new Team("TeamA");
+        member.setTeam(team);
+
+        // ExampleMatcher 생성, age 프로퍼티는 무시
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("age");
+
+        Example<Member> example = Example.of(member);
+        List<Member> result = memberRepository.findAll(example);
+
+        // then
+        assertThat(result.get(0).getUsername()).isEqualTo("m1");
+
+    }
+    
+    @Test
+    public void projectionsTest() throws Exception {
+        // given
+        Team teamA = new Team("TeamA");
+        em.persist(teamA);
+
+        Member m1 = new Member("m1", 0, teamA);
+        Member m2 = new Member("m2", 0, teamA);
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+        
+        // when
+        List<UsernameOnly> result = memberRepository.findProjectionsByUsername("m1");
+        
+        result.forEach(usernameOnly -> System.out.println("usernameOnly.getUsername() = " + usernameOnly.getUsername()));
+
+        // then
+    
     }
 }
