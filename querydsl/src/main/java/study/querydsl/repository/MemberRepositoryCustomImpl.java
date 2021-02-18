@@ -13,6 +13,7 @@ import study.querydsl.dto.MemberTeamDto;
 import study.querydsl.dto.QMemberTeamDto;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
+import study.querydsl.entity.QProject;
 import study.querydsl.entity.QTeam;
 
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import static org.springframework.util.StringUtils.hasText;
 import static study.querydsl.entity.QMember.*;
+import static study.querydsl.entity.QProject.*;
 import static study.querydsl.entity.QTeam.*;
 
 public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
@@ -140,5 +142,14 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     private BooleanExpression ageLoe(Integer ageLoe) {
         return ageLoe != null ? member.age.loe(ageLoe) : null;
+    }
+
+    @Override
+    public List<Member> findAllFetchJoin() {
+        return queryFactory
+                .selectFrom(member)
+                .leftJoin(member.team, team).fetchJoin()
+                .leftJoin(team.projects, project).fetchJoin()
+                .fetch();
     }
 }

@@ -2,7 +2,6 @@ package study.querydsl.repository;
 
 import org.springframework.stereotype.Repository;
 import study.querydsl.entity.Member;
-import study.querydsl.entity.QMember;
 
 import java.util.List;
 

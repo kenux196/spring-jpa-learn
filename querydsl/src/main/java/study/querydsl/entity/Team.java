@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = "members")
+@ToString(exclude = {"members", "projects"})
 public class Team {
 
     @Id
@@ -22,6 +22,9 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>();
+
+    @OneToMany(mappedBy = "team")
+    private List<Project> projects = new ArrayList<>();
 
     public Team(String name) {
         this.name = name;
