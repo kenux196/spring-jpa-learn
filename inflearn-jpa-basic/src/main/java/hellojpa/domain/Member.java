@@ -1,7 +1,5 @@
-package hellojpa;
+package hellojpa.domain;
 
-import com.sun.xml.internal.rngom.parse.host.Base;
-import lombok.ToString;
 
 import javax.persistence.*;
 
