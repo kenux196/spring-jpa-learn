@@ -52,7 +52,7 @@ public class GrandChild {
             @JoinColumn(name = "parent_id"),
             @JoinColumn(name = "child_id")
     })
-    private Child child;
+    private IdentifyChild child;
 
 
     private String name;

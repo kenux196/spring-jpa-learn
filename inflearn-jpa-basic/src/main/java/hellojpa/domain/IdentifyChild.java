@@ -47,7 +47,7 @@ public class IdentifyChild {
     @MapsId("parentId") // ChildId.parentId 매핑
     @ManyToOne
     @JoinColumn(name = "parent_id")
-    public Parent parent;
+    public IdentifyParent parent;
 
     private String name;
 }
