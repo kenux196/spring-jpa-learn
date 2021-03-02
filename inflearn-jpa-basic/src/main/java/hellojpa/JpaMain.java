@@ -1,5 +1,9 @@
 package hellojpa;
 
+import hellojpa.domain.Album;
+import hellojpa.domain.Member;
+import hellojpa.domain.Movie;
+import hellojpa.domain.Team;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityManager;
