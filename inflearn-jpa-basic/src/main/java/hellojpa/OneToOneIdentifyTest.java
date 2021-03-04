@@ -14,13 +14,10 @@ package hellojpa;
 
 import hellojpa.domain.Board;
 import hellojpa.domain.BoardDetail;
-import hellojpa.domain.Parent;
-import hellojpa.domain.ParentId;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 /**
  * <pre>
@@ -32,9 +29,10 @@ import javax.persistence.Query;
  * ====================================================================================
  *
  * </pre>
- * @date 2021-03-02
+ *
  * @author skyun
  * @version 1.0.0
+ * @date 2021-03-02
  **/
 public class OneToOneIdentifyTest {
 

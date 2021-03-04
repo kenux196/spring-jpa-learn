@@ -2,6 +2,7 @@ package hellojpa.domain;
 
 
 import javax.persistence.*;
+import java.io.BufferedReader;
 
 @Entity
 @Table(name = "MEMBER")
@@ -12,7 +13,7 @@ public class Member extends BaseEntity {
     private Long id;
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
