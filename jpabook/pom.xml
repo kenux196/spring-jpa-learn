@@ -21,7 +21,7 @@
         <!-- JPA, 하이버네이트 버전 -->
         <hibernate.version>5.2.6.Final</hibernate.version>
         <!-- 데이터베이스 버전 -->
-        <h2db.version>1.4.200</h2db.version>
+        <h2db.version>2.2.220</h2db.version>
     </properties>
 
     <dependencies>
