@@ -85,7 +85,7 @@ public class QuerydslJoinTest {
 
     /**
      * ex) 회원과 팀을 조인하면서, 팀 이름이 teamA인 팀만 조인, 회원은 모두 조회
-     * JPQL : select m, t from Member m left join m.team t on t.nam = 'teamA'
+     * JPQL : select m, t from Member m left join m.team t on t.name = 'teamA'
      * SQL : select m.*, t.* from Member m left join Team t on m.TEAM_ID = t.id and t.name = 'teamA'
      */
     @Test
