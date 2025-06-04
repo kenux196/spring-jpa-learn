@@ -93,11 +93,12 @@ public class QuerydslJoinTest {
         List<Tuple> result = queryFactory.select(member, team)
                 .from(member)
                 .leftJoin(member.team, team).on(team.name.eq("teamA"))
+                .where(team.name.eq("teamA"))
                 .fetch();
 
-        for (Tuple tuple : result) {
-            System.out.println("tuple = " + tuple);
-        }
+        assertThat(result)
+                .extracting(t -> t.get(member.username))
+                .containsExactly("member1", "member2");
     }
 
     /**
@@ -114,9 +115,13 @@ public class QuerydslJoinTest {
                 .leftJoin(team).on(member.username.eq(team.name))
                 .fetch();
 
-        for (Tuple tuple : result) {
-            System.out.println("tuple = " + tuple);
-        }
+        List<String> matchedUsernames = result.stream()
+                .filter(t -> t.get(team) != null)
+                .map(t -> t.get(member.username))
+                .toList();
+
+        assertThat(matchedUsernames)
+                .containsExactlyInAnyOrder("teamA", "teamB");
     }
 
     /**
@@ -136,7 +141,6 @@ public class QuerydslJoinTest {
                 .where(member.username.eq("member1"))
                 .fetchOne();
         // then
-        System.out.println("++++++++++++++++++++++++++++");
         boolean loaded = emf.getPersistenceUnitUtil().isLoaded(findMember.getTeam());
         assertThat(loaded).as("페치 조인 미적용").isFalse();
     }
