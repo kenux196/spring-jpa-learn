@@ -12,7 +12,7 @@ public class MemberSpec {
             @Override
             public Predicate toPredicate(Root<Member> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 
-                if (StringUtils.hasText(teamName)) {
+                if (!StringUtils.hasText(teamName)) {
                     return null;
                 }
 
