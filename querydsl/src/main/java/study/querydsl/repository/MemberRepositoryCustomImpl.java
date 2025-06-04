@@ -43,9 +43,9 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                         team.name.as("teamName")))
                 .from(member)
                 .leftJoin(member.team, team)
-                .where(usernemaEq(condition.getUsername()),
+                .where(usernameEq(condition.getUsername()),
                         teamNameEq(condition.getTeamName()),
-                        ageGeo(condition.getAgeGoe()),
+                        ageGoe(condition.getAgeGoe()),
                         ageLoe(condition.getAgeLoe()))
                 .fetch();
     }
@@ -65,9 +65,9 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                         team.name.as("teamName")))
                 .from(member)
                 .leftJoin(member.team, team)
-                .where(usernemaEq(condition.getUsername()),
+                .where(usernameEq(condition.getUsername()),
                         teamNameEq(condition.getTeamName()),
-                        ageGeo(condition.getAgeGoe()),
+                        ageGoe(condition.getAgeGoe()),
                         ageLoe(condition.getAgeLoe()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -93,9 +93,9 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                         team.name.as("teamName")))
                 .from(member)
                 .leftJoin(member.team, team)
-                .where(usernemaEq(condition.getUsername()),
+                .where(usernameEq(condition.getUsername()),
                         teamNameEq(condition.getTeamName()),
-                        ageGeo(condition.getAgeGoe()),
+                        ageGoe(condition.getAgeGoe()),
                         ageLoe(condition.getAgeLoe()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -105,9 +105,9 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .select(member)
                 .from(member)
                 .leftJoin(member.team, team)
-                .where(usernemaEq(condition.getUsername()),
+                .where(usernameEq(condition.getUsername()),
                         teamNameEq(condition.getTeamName()),
-                        ageGeo(condition.getAgeGoe()),
+                        ageGoe(condition.getAgeGoe()),
                         ageLoe(condition.getAgeLoe()))
                 .fetchCount();
 
@@ -116,9 +116,9 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .select(member)
                 .from(member)
                 .leftJoin(member.team, team)
-                .where(usernemaEq(condition.getUsername()),
+                .where(usernameEq(condition.getUsername()),
                         teamNameEq(condition.getTeamName()),
-                        ageGeo(condition.getAgeGoe()),
+                        ageGoe(condition.getAgeGoe()),
                         ageLoe(condition.getAgeLoe()));
 
         //return new PageImpl<>(content, pageable, total);
@@ -128,7 +128,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     }
 
-    private BooleanExpression usernemaEq(String username) {
+    private BooleanExpression usernameEq(String username) {
         return hasText(username) ? member.username.eq(username) : null;
     }
 
@@ -136,7 +136,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
         return hasText(teamName) ? team.name.eq(teamName) : null;
     }
 
-    private BooleanExpression ageGeo(Integer ageGoe) {
+    private BooleanExpression ageGoe(Integer ageGoe) {
         return ageGoe != null ? member.age.goe(ageGoe) : null;
     }
 

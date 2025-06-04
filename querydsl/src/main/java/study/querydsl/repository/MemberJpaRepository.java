@@ -108,14 +108,14 @@ public class MemberJpaRepository {
                         team.name.as("teamName")))
                 .from(member)
                 .leftJoin(member.team, team)
-                .where(usernemaEq(condition.getUsername()),
+                .where(usernameEq(condition.getUsername()),
                         teamNameEq(condition.getTeamName()),
-                        ageGeo(condition.getAgeGoe()),
+                        ageGoe(condition.getAgeGoe()),
                         ageLoe(condition.getAgeLoe()))
                 .fetch();
     }
 
-    private BooleanExpression usernemaEq(String username) {
+    private BooleanExpression usernameEq(String username) {
         return hasText(username) ? member.username.eq(username) : null;
     }
 
@@ -123,7 +123,7 @@ public class MemberJpaRepository {
         return hasText(teamName) ? team.name.eq(teamName) : null;
     }
 
-    private BooleanExpression ageGeo(Integer ageGoe) {
+    private BooleanExpression ageGoe(Integer ageGoe) {
         return ageGoe != null ? member.age.goe(ageGoe) : null;
     }
 
